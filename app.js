@@ -8,6 +8,7 @@ const scrapingProfile = async ()=>{
     });
   };
 
+  // Auto scrooll
   const autoscrollToElement = async function(cssSelector){
 
       var exists = document.querySelector(cssSelector);
@@ -35,7 +36,7 @@ const scrapingProfile = async ()=>{
       });
   };
 
-  //Logic
+  // Logic
   const selectorProfile = {
       personalInformation:{
           name:"div.display-flex.mt2 ul li",
@@ -68,16 +69,19 @@ const scrapingProfile = async ()=>{
       }
   }
 
+  // Desplegar resumen
   const clickOnMoreResume = async ()=>{
     const elementMoreResume = document.getElementById('line-clamp-show-more-button')
     if(elementMoreResume) elementMoreResume.click()
   }
 
+  // Abrir ventana de Info
   const clickOnMoreInfo = async ()=>{
     const elementMoreInfo = document.querySelector("div.display-flex.mt2 > div.flex-1.mr5 a[data-control-name='contact_see_more']") 
     if (elementMoreInfo) elementMoreInfo.click();
   }
 
+  // Obtener Información personal
   const getPersonalInformation = async ()=>{
     const {personalInformation:selector} = selectorProfile
       
@@ -89,6 +93,7 @@ const scrapingProfile = async ()=>{
     return {name,title,resume,link}
   }
 
+  // Obtener Información de experiencia
   const getExperienceInformation = async ()=>{      
     const {experienceInformation:selector} = selectorProfile      
     //get information      
@@ -134,6 +139,7 @@ const scrapingProfile = async ()=>{
     return experiences
   }
 
+  // Obtener Información de educación
   const getEducationInformation = async ()=>{      
     const {educationInformation:selector} = selectorProfile      
     const educationItems = document.querySelectorAll(selector.list)      
@@ -148,6 +154,7 @@ const scrapingProfile = async ()=>{
     return educations
   }
 
+  // Crear un popup visual
   const createPopup = ()=>{   
     const styleDiv = "position: fixed;z-index: 2000;width:100%; top: 0px;left: 0px;overflow: visible;display: flex;align-items: flex-end;background-color: lightgray;font-size: 10px;padding: 10px;";  
     const stylePre = "position: relative;max-height: 400px;overflow: scroll;width: 100%;"
@@ -178,6 +185,7 @@ const scrapingProfile = async ()=>{
   
   }
   
+  // Obtener Información Total del perfil
   const scrapingPerfil = async ()=>{
 
     await autoscrollToElement('body')         
@@ -197,25 +205,38 @@ const scrapingProfile = async ()=>{
     }
   }
 
+  // Ir a la url --> sin usar
   const goTolink = async (url)=>{
     history.pushState(null,'',url) 
     history.go()
   }
   
+  // Click en perfil
+  const clickOnPerfil = (url)=>{
+    if (url) {
+      url.click();
+    }
+  }
+
+  // Regresar
+
+  // Obtener links de perfiles
   const getLinks = ()=>{
     const elements = document.querySelectorAll("li.reusable-search__result-container span a:not([target])")
     const links = Array.from(elements,(node) => node.href)
     return elements
   }
   
+  // Contar numero de perfiles
   const cont = getLinks()
+  // Almacenamiento de datos para perfiles
   const perfils = [];
 
-  for (let i = 0; i <= cont.length; i++) {
+  for (let i = 0; i < cont.length; i++) {
 
     await wait(4000)
     const links = getLinks()
-    if (links[i]) links[i].click();
+    clickOnPerfil(links[i])
     await wait(2000)
     
     const {div,pre,button} = createPopup()  
@@ -235,7 +256,7 @@ const scrapingProfile = async ()=>{
       div.remove()
     })
 
-    if(cont.length == (i+4)){break;}
+    if(cont.length == (i+6)){break;}
 
     history.back();
     history.back();
