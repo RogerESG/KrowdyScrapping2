@@ -1,0 +1,24 @@
+{
+  "manifest_version": 3,
+  "name": "Bootcamp Information from linkedin",
+  "version": "1.4",
+  "description": "Get Information from contact profiles",
+  "content_scripts": [
+    {
+      "matches": ["https://www.linkedin.com/*"],
+      "js": ["./app.js"]
+    }
+  ],
+  "action": {
+      "default_popup": "./App/index.html",
+      "default_icon":{
+        "32": "./App/Image/sword_13.png",
+        "48": "./App/Image/sword_13.png"
+      }
+    },
+  "permissions": ["activeTab", "scripting"],
+  "icons": {
+    "32": "./App/Image/sword_13.png",
+    "48": "./App/Image/sword_13.png"
+  }
+}
